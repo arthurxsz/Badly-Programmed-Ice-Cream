@@ -68,7 +68,7 @@ CHAR_ESQ:	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 		sw t2,0(t1)			# salva a posicao atual do personagem em OLD_CHAR_POS
 		
 		lh t1,0(t0)			# carrega o x atual do personagem
-		addi t1,t1,-16			# decrementa 16 pixeis
+		addi t1,t1,-24			# decrementa 24 pixeis
 		bltz t1, FIM			# verifica se não está tentando sair do mapa
 		sh t1,0(t0)			# salva
 		ret
@@ -80,9 +80,9 @@ CHAR_DIR:	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 		
 		la t0,CHAR_POS
 		lh t1,0(t0)			# carrega o x atual do personagem
-		addi t1,t1,16			# incrementa 16 pixeis
-		li t3, 320
-		beq t1, t3, FIM			# verifica se não está tentando sair do mapa
+		addi t1,t1,24			# incrementa 24 pixeis
+		li t3, 296
+		bge t1, t3, FIM			# verifica se não está tentando sair do mapa
 		sh t1,0(t0)			# salva
 		ret
 
@@ -93,7 +93,7 @@ CHAR_CIMA:	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 		
 		la t0,CHAR_POS
 		lh t1,2(t0)			# carrega o y atual do personagem
-		addi t1,t1,-16			# decrementa 16 pixeis
+		addi t1,t1,-30			# decrementa 30 pixeis
 		bltz t1, FIM			# verifica se não está tentando sair do mapa
 		sh t1,2(t0)			# salva
 		ret
@@ -105,9 +105,9 @@ CHAR_BAIXO:	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 		
 		la t0,CHAR_POS
 		lh t1,2(t0)			# carrega o y atual do personagem
-		addi t1,t1,16			# incrementa 16 pixeis
+		addi t1,t1,30			# incrementa 30 pixeis
 		li t3, 240
-		beq t1, t3, FIM			# verifica se não está tentando sair do mapa
+		bge t1, t3, FIM			# verifica se não está tentando sair do mapa
 		sh t1,2(t0)			# salva
 		ret
 		
@@ -166,4 +166,4 @@ PRINT_LINHA:	lw t6,0(t1)			# carrega em t6 uma word (4 pixeis) da imagem
 .data
 .include "sprites/tile.data"
 .include "sprites/map.data"
-.include "sprites/char.s"
+.include "sprites/char.data"

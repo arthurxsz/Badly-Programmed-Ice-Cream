@@ -7,9 +7,9 @@ SETUP:		la a0,map			# carrega o endereco do sprite 'map' em a0
 		li a1,0				# x = 0
 		li a2,0				# y = 0
 		li a3,0				# frame = 0
-		call PRINT			# imprime o sprite
+		call Print			# imprime o sprite
 		li a3,1				# frame = 1
-		call PRINT			# imprime o sprite
+		call Print			# imprime o sprite
 		# esse setup serve pra desenhar o "mapa" nos dois frames antes do "jogo" comecar
 
 GAME_LOOP:	call KEY2			# chama o procedimento de entrada do teclado
@@ -18,11 +18,11 @@ GAME_LOOP:	call KEY2			# chama o procedimento de entrada do teclado
 		
 		la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 		
-		la a0,char			# carrega o endereco do sprite 'char' em a0
+		la a0,P_IDLE_FRONT1		# carrega o endereco do sprite 'char' em a0
 		lh a1,0(t0)			# carrega a posicao x do personagem em a1
 		lh a2,2(t0)			# carrega a posicao y do personagem em a2
 		mv a3,s0			# carrega o valor do frame em a3
-		call PRINT			# imprime o sprite
+		call Print			# imprime o sprite
 		
 		li t0,0xFF200604		# carrega em t0 o endereco de troca de frame
 		sw s0,0(t0)			# mostra o sprite pronto para o usuario
@@ -38,7 +38,7 @@ GAME_LOOP:	call KEY2			# chama o procedimento de entrada do teclado
 		
 		mv a3,s0			# carrega o frame atual (que esta na tela em a3)
 		xori a3,a3,1			# inverte a3 (0 vira 1, 1 vira 0)
-		call PRINT			# imprime
+		call Print			# imprime
 
 		j GAME_LOOP			# continua o loop
 
@@ -111,59 +111,10 @@ CHAR_BAIXO:	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 		sh t1,2(t0)			# salva
 		ret
 		
-
-#################################################
-#	a0 = endereço imagem			#
-#	a1 = x					#
-#	a2 = y					#
-#	a3 = frame (0 ou 1)			#
-#################################################
-#	t0 = endereco do bitmap display		#
-#	t1 = endereco da imagem			#
-#	t2 = contador de linha			#
-# 	t3 = contador de coluna			#
-#	t4 = largura				#
-#	t5 = altura				#
-#################################################
-
-PRINT:		li t0,0xFF0			# carrega 0xFF0 em t0
-		add t0,t0,a3			# adiciona o frame ao FF0 (se o frame for 1 vira FF1, se for 0 fica FF0)
-		slli t0,t0,20			# shift de 20 bits pra esquerda (0xFF0 vira 0xFF000000, 0xFF1 vira 0xFF100000)
-		
-		add t0,t0,a1			# adiciona x ao t0
-		
-		li t1,320			# t1 = 320
-		mul t1,t1,a2			# t1 = 320 * y
-		add t0,t0,t1			# adiciona t1 ao t0
-		
-		addi t1,a0,8			# t1 = a0 + 8
-		
-		mv t2,zero			# zera t2
-		mv t3,zero			# zera t3
-		
-		lw t4,0(a0)			# carrega a largura em t4
-		lw t5,4(a0)			# carrega a altura em t5
-		
-PRINT_LINHA:	lw t6,0(t1)			# carrega em t6 uma word (4 pixeis) da imagem
-		sw t6,0(t0)			# imprime no bitmap a word (4 pixeis) da imagem
-		
-		addi t0,t0,4			# incrementa endereco do bitmap
-		addi t1,t1,4			# incrementa endereco da imagem
-		
-		addi t3,t3,4			# incrementa contador de coluna
-		blt t3,t4,PRINT_LINHA		# se contador da coluna < largura, continue imprimindo
-
-		addi t0,t0,320			# t0 += 320
-		sub t0,t0,t4			# t0 -= largura da imagem
-		# ^ isso serve pra "pular" de linha no bitmap display
-		
-		mv t3,zero			# zera t3 (contador de coluna)
-		addi t2,t2,1			# incrementa contador de linha
-		bgt t5,t2,PRINT_LINHA		# se altura > contador de linha, continue imprimindo
-		
-		ret				# retorna
+.include "functions/Print.s"
 
 .data
 .include "sprites/tile.data"
 .include "sprites/map.data"
-.include "sprites/char.data"
+.include "sprites/player/idle/P_IDLE_FRONT1.data"
+.include "sprites/player/idle/P_IDLE_FRONT2.data"

@@ -3,7 +3,13 @@ CHAR_POS:	.half 0,0			# x, y
 OLD_CHAR_POS:	.half 0,0			# x, y
 
 .text
-SETUP:		la a0,map			# carrega o endereco do sprite 'map' em a0
+SETUP:		#SETUP MUSICA
+		la t0, D_BG_MUSIC
+		la t1, M_BG
+		sw t1, 0(t0)
+		jal a0, ST_MUS
+
+		la a0,map			# carrega o endereco do sprite 'map' em a0
 		li a1,0				# x = 0
 		li a2,0				# y = 0
 		li a3,0				# frame = 0
@@ -13,7 +19,7 @@ SETUP:		la a0,map			# carrega o endereco do sprite 'map' em a0
 		# esse setup serve pra desenhar o "mapa" nos dois frames antes do "jogo" comecar
 
 GAME_LOOP:	call KEY			# chama o procedimento de entrada do teclado
-		
+		jal P_MUS
 		xori s0,s0,1			# inverte o valor frame atual (somente o registrador)
 		
 		la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
@@ -50,3 +56,5 @@ GAME_LOOP:	call KEY			# chama o procedimento de entrada do teclado
 .include "sprites/map.data"
 .include "sprites/player/idle/P_IDLE_FRONT1.data"
 .include "sprites/player/idle/P_IDLE_FRONT2.data"
+.include "src/sound.s"
+.include "src/songs.data"

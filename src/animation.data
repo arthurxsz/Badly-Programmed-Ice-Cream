@@ -1,90 +1,11 @@
 # LABEL: .word Quantidade de sprites, 1, sprite1, sprite2 ...
 
 ###########               PLAYER             #############
-Current_Player_Animation: .word Player_Idle_Animation_Front
-Player_Idle_Animation_Front: .word 4, 1, P_IDLE_FRONT1, P_IDLE_FRONT2, P_IDLE_FRONT3, P_IDLE_FRONT4
-Player_Idle_Animation_Back: .word 4, 1, P_IDLE_BACK1, P_IDLE_BACK2, P_IDLE_BACK3, P_IDLE_BACK4
-Player_Idle_Animation_Left: .word 5, 1, P_IDLE_LEFT1, P_IDLE_LEFT2, P_IDLE_LEFT3, P_IDLE_LEFT4, P_IDLE_LEFT5
-Player_Idle_Animation_Right: .word 5, 1, P_IDLE_RIGHT1, P_IDLE_RIGHT2, P_IDLE_RIGHT3, P_IDLE_RIGHT4, P_IDLE_RIGHT5
-
-Player_Move_Animation_Front: .word 8, 1, P_MOVE_FRONT1, P_MOVE_FRONT2, P_MOVE_FRONT3, P_MOVE_FRONT4, P_MOVE_FRONT5, P_MOVE_FRONT6, P_MOVE_FRONT7, P_MOVE_FRONT8
-Player_Move_Animation_Back: .word 8, 1, P_MOVE_BACK1, P_MOVE_BACK2, P_MOVE_BACK3, P_MOVE_BACK4, P_MOVE_BACK5, P_MOVE_BACK6, P_MOVE_BACK7, P_MOVE_BACK8
-Player_Move_Animation_Left: .word 8, 1, P_MOVE_LEFT1, P_MOVE_LEFT2, P_MOVE_LEFT3, P_MOVE_LEFT4, P_MOVE_LEFT5,  P_MOVE_LEFT6, P_MOVE_LEFT7, P_MOVE_LEFT8
-Player_Move_Animation_Right: .word 8, 1, P_MOVE_RIGHT1, P_MOVE_RIGHT2, P_MOVE_RIGHT3, P_MOVE_RIGHT4, P_MOVE_RIGHT5, P_MOVE_RIGHT6, P_MOVE_RIGHT7, P_MOVE_RIGHT8
-
-Player_Attack_Animation: .word 8, 1, P_ATTACK1, P_ATTACK2, P_ATTACK3, P_ATTACK4, P_ATTACK5, P_ATTACK6, P_ATTACK7, P_ATTACK8
-
+player_state_sprite: .word playerfront, playerback, playerleft, playerright
 ###########               PLAYER             #############
 
-####### PLAYER IDLE #######
-#PLAYER IDLE FRONT (21x29)
-.include "../sprites/player/idle/P_IDLE_FRONT1.data"
-.include "../sprites/player/idle/P_IDLE_FRONT2.data"
-.include "../sprites/player/idle/P_IDLE_FRONT3.data"
-.include "../sprites/player/idle/P_IDLE_FRONT4.data"
-#PLAYER IDLE BACK (21x29)
-.include "../sprites/player/idle/P_IDLE_BACK1.data"
-.include "../sprites/player/idle/P_IDLE_BACK2.data"
-.include "../sprites/player/idle/P_IDLE_BACK3.data"
-.include "../sprites/player/idle/P_IDLE_BACK4.data"
-#PLAYER IDLE LEFT (21x29)
-.include "../sprites/player/idle/P_IDLE_LEFT1.data"
-.include "../sprites/player/idle/P_IDLE_LEFT2.data"
-.include "../sprites/player/idle/P_IDLE_LEFT3.data"
-.include "../sprites/player/idle/P_IDLE_LEFT4.data"
-.include "../sprites/player/idle/P_IDLE_LEFT5.data"
-#PLAYER IDLE RIGHT (21x29)
-.include "../sprites/player/idle/P_IDLE_RIGHT1.data"
-.include "../sprites/player/idle/P_IDLE_RIGHT2.data"
-.include "../sprites/player/idle/P_IDLE_RIGHT3.data"
-.include "../sprites/player/idle/P_IDLE_RIGHT4.data"
-.include "../sprites/player/idle/P_IDLE_RIGHT5.data"
-
-####### PLAYER MOVEMENT #######
-#PLAYER MOVE FRONT (21x31)
-.include "../sprites/player/move/P_MOVE_FRONT1.data"
-.include "../sprites/player/move/P_MOVE_FRONT2.data"
-.include "../sprites/player/move/P_MOVE_FRONT3.data"
-.include "../sprites/player/move/P_MOVE_FRONT4.data"
-.include "../sprites/player/move/P_MOVE_FRONT5.data"
-.include "../sprites/player/move/P_MOVE_FRONT6.data"
-.include "../sprites/player/move/P_MOVE_FRONT7.data"
-.include "../sprites/player/move/P_MOVE_FRONT8.data"
-#PLAYER MOVE BACK (21x31)
-.include "../sprites/player/move/P_MOVE_BACK1.data"
-.include "../sprites/player/move/P_MOVE_BACK2.data"
-.include "../sprites/player/move/P_MOVE_BACK3.data"
-.include "../sprites/player/move/P_MOVE_BACK4.data"
-.include "../sprites/player/move/P_MOVE_BACK5.data"
-.include "../sprites/player/move/P_MOVE_BACK6.data"
-.include "../sprites/player/move/P_MOVE_BACK7.data"
-.include "../sprites/player/move/P_MOVE_BACK8.data"
-#PLAYER MOVE LEFT (21x31)
-.include "../sprites/player/move/P_MOVE_LEFT1.data"
-.include "../sprites/player/move/P_MOVE_LEFT2.data"
-.include "../sprites/player/move/P_MOVE_LEFT3.data"
-.include "../sprites/player/move/P_MOVE_LEFT4.data"
-.include "../sprites/player/move/P_MOVE_LEFT5.data"
-.include "../sprites/player/move/P_MOVE_LEFT6.data"
-.include "../sprites/player/move/P_MOVE_LEFT7.data"
-.include "../sprites/player/move/P_MOVE_LEFT8.data"
-#PLAYER MOVE RIGHT (21x31)
-.include "../sprites/player/move/P_MOVE_RIGHT1.data"
-.include "../sprites/player/move/P_MOVE_RIGHT2.data"
-.include "../sprites/player/move/P_MOVE_RIGHT3.data"
-.include "../sprites/player/move/P_MOVE_RIGHT4.data"
-.include "../sprites/player/move/P_MOVE_RIGHT5.data"
-.include "../sprites/player/move/P_MOVE_RIGHT6.data"
-.include "../sprites/player/move/P_MOVE_RIGHT7.data"
-.include "../sprites/player/move/P_MOVE_RIGHT8.data"
-
-####### PLAYER SPECIAL #######
-#PLAYER ATTACK (24x30)
-.include "../sprites/player/move/P_ATTACK1.data"
-.include "../sprites/player/move/P_ATTACK2.data"
-.include "../sprites/player/move/P_ATTACK3.data"
-.include "../sprites/player/move/P_ATTACK4.data"
-.include "../sprites/player/move/P_ATTACK5.data"
-.include "../sprites/player/move/P_ATTACK6.data"
-.include "../sprites/player/move/P_ATTACK7.data"
-.include "../sprites/player/move/P_ATTACK8.data"
+####### PLAYER #######
+.include "../sprites/player/playerfront.data"
+.include "../sprites/player/playerback.data"
+.include "../sprites/player/playerleft.data"
+.include "../sprites/player/playerright.data"

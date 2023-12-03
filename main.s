@@ -1,19 +1,16 @@
 .data
-CHAR_POS:	.half 80,16			# x, y
-OLD_CHAR_POS:	.half 0,0			# x, y
+CHAR_POS:	.half 80,16		# x, y
+OLD_CHAR_POS:	.half 80,16		# x, y
 
 #####################################################
 #		 VARIAVEIS GLOBAIS		    #
 #####################################################
 
-playerstate: # 0, 1, 2, 3 para as diferentes posições
-.word 0
+playerstate: .word 0 # 0, 1, 2, 3 para as diferentes posições
 
 # TAMANHO DO MAPA
-mapwidth:
-.word	20
-mapheight:
-.word	15
+mapwidth: .word	20
+mapheight: .word	15
 
 
 #####################################################
@@ -21,18 +18,8 @@ mapheight:
 #####################################################
 
 
-
-
-
-
-
 .text
-SETUP:		#SETUP MUSICA
-		la t0, D_BG_MUSIC
-		la t1, M_BG
-		sw t1, 0(t0)
-		jal a0, ST_MUS
-
+SETUP:	
 		la a0,mapa1			# carrega o endereco do sprite 'map' em a0
 		li a1,0				# x = 0
 		li a2,0				# y = 0
@@ -43,19 +30,16 @@ SETUP:		#SETUP MUSICA
 		# esse setup serve pra desenhar o "mapa" nos dois frames antes do "jogo" comecar
 
 GAME_LOOP:	call KEY			# chama o procedimento de entrada do teclado
-		jal P_MUS
 		xori s0,s0,1			# inverte o valor frame atual (somente o registrador)
 		
 		la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 		
-		
-		la t1, playerstate
-		lw t2, 0(t1)
+		lw t2, playerstate
 		li t3, 4
 		mul t2,t2,t3			# t2 recebe o endereço correto do player_state_sprite
-		la t1, player_state_sprite
-		add t1, t1, t2
-		lw a0, 0(t1)		# carrega o endereco do sprite 'char' em a0
+		la t1, player_state_sprite	# player_state_sprite contém todos os sprites de movimentação 
+		add t1, t1, t2			# t1 é o endereço do sprite a ser impresso	
+		lw a0, 0(t1)			# carrega o endereco do sprite 'char' em a0
 		lh a1,0(t0)			# carrega a posicao x do personagem em a1
 		lh a2,2(t0)			# carrega a posicao y do personagem em a2
 		mv a3,s0			# carrega o valor do frame em a3
@@ -87,6 +71,4 @@ GAME_LOOP:	call KEY			# chama o procedimento de entrada do teclado
 .include "sprites/player/idle/P_IDLE_FRONT2.data"
 .include "sprites/mapa/mapa1.data"
 .include "sprites/mapa/snow.data"
-.include "src/sound.s"
-.include "src/songs.data"
 .include "src/animation.data"

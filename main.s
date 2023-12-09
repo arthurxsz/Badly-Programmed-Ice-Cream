@@ -10,9 +10,7 @@ playerstate: .word 0 # 0, 1, 2, 3 para as diferentes posições
 
 # TAMANHO DO MAPA
 mapwidth: .word	20
-mapheight: .word	15
-
-
+mapheight: .word 15
 #####################################################
 #		 PROGRAMA INCLUI		    #
 #####################################################
@@ -65,10 +63,13 @@ GAME_LOOP:	call KEY			# chama o procedimento de entrada do teclado
 		
 .include "functions/Print.s"
 .include "functions/Movement.s"
+
+
 .data
-.include "sprites/tile.data"
-.include "sprites/player/idle/P_IDLE_FRONT1.data"
-.include "sprites/player/idle/P_IDLE_FRONT2.data"
 .include "sprites/mapa/mapa1.data"
 .include "sprites/mapa/snow.data"
 .include "src/animation.data"
+
+.include "sprites/menu.data"
+
+.include "levelInformation/level1/level1.data"

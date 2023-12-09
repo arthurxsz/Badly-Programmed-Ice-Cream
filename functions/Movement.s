@@ -14,67 +14,120 @@ KEY:		li t1,0xFF200000		# carrega o endereco de controle do KDMMIO
 		beq t2,t0,CHAR_BAIXO		# se tecla pressionada for 's', chama CHAR_CIMA
 		
 		li t0,'d'
-		beq t2,t0,CHAR_DIR		# se tecla pressionada for 'd', chama CHAR_CIMA
-	
+		beq t2,t0,CHAR_DIR		# se tecla pressionada for 'd', chama CHAR_CIMA	
+			
 FIM:		ret				# retorna
 
-CHAR_ESQ:	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
-		la t1,OLD_CHAR_POS		# carrega em t1 o endereco de OLD_CHAR_POS
-		lw t2,0(t0)
-		sw t2,0(t1)			# salva a posicao atual do personagem em OLD_CHAR_POS
-		
-		lh t1,0(t0)			# carrega o x atual do personagem
-		addi t1,t1,-16			# decrementa 24 pixeis
-		bltz t1, FIM			# verifica se não está tentando sair do mapa
-		sh t1,0(t0)			# salva
-		la t1, playerstate
+CHAR_ESQ:	la t1, playerstate
 		li t2, 2
-		sw t2, 0(t1)
+		sw t2, (t1)
+
+		la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
+		la t1,OLD_CHAR_POS		# carrega em t1 o endereco de OLD_CHAR_POS
+		lw t2,0(t0)
+		sw t2,0(t1)			# salva a posicao atual do personagem em OLD_CHAR_POS
+		
+		lh t1,0(t0)			# carrega o x atual do personagem
+		addi t1,t1,-16			# decrementa 16 pixeis	
+		
+		la t5, level1			# endereço do primeiro byte do mapa
+		li t3, 16			# t3 = 16	
+		divu t3, t1, t3			# t3 = x/16 endereço real x no mapa
+		add t5, t5, t3			# endereço mapa + posição x
+		li t3, 16
+		lh t4, 2(t0)			# t4 = y do personagem
+		divu t4, t4, t3			# t4 = y/16 endereço real y no mapa
+		li t3, 20			# t3 = 20
+		mul t4, t4, t3			# t4 = t4 * 20
+		add t5, t5, t4			# endereço do mapa + posição y real
+		lbu t4, (t5)			# carrega byte do mapa
+		bnez t4, FIM			# se o byte não for 0 não pode andar, sai
+		
+		sh t1,0(t0)			# salva
 		ret
 
-CHAR_DIR:	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
+CHAR_DIR:	la t1, playerstate
+		li t2, 3
+		sw t2, (t1)
+
+		la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 		la t1,OLD_CHAR_POS		# carrega em t1 o endereco de OLD_CHAR_POS
 		lw t2,0(t0)
 		sw t2,0(t1)			# salva a posicao atual do personagem em OLD_CHAR_POS
 		
 		la t0,CHAR_POS
 		lh t1,0(t0)			# carrega o x atual do personagem
-		addi t1,t1,16			# incrementa 24 pixeis
-		li t3, 296
-		bge t1, t3, FIM			# verifica se não está tentando sair do mapa
+		addi t1,t1,16			# incrementa 16 pixeis
+		
+		la t5, level1			# endereço do primeiro byte do mapa
+		lh t6, 2(t0)			# t6 = y do personagem
+		li t3, 16			# t3 = 16	
+		divu t3, t1, t3			# t3 = x/16 endereço real x no mapa
+		add t5, t5, t3			# endereço mapa + posição x
+		li t3, 16
+		divu t6, t6, t3			# t6 = y/16 endereço real y no mapa
+		li t3, 20			# t3 = 20
+		mul t6, t6, t3			# t6 = t6 * 20
+		add t5, t5, t6			# endereço do mapa + posição y real
+		lbu t4, (t5)			# carrega byte do mapa
+		bnez t4, FIM			# se o byte não for 0 não pode andar, sai
+		
 		sh t1,0(t0)			# salva
-		la t1, playerstate
-		li t2, 3
-		sw t2, 0(t1)
 		ret
 
-CHAR_CIMA:	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
-		la t1,OLD_CHAR_POS		# carrega em t1 o endereco de OLD_CHAR_POS
-		lw t2,0(t0)
-		sw t2,0(t1)			# salva a posicao atual do personagem em OLD_CHAR_POS
-		
-		la t0,CHAR_POS
-		lh t1,2(t0)			# carrega o y atual do personagem
-		addi t1,t1,-16			# decrementa 30 pixeis
-		bltz t1, FIM			# verifica se não está tentando sair do mapa
-		sh t1,2(t0)			# salva
-		la t1, playerstate
+CHAR_CIMA:	la t1, playerstate
 		li t2, 1
-		sw t2, 0(t1)
+		sw t2, (t1)
+
+		la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
+		la t1,OLD_CHAR_POS		# carrega em t1 o endereco de OLD_CHAR_POS
+		lw t2,0(t0)
+		sw t2,0(t1)			# salva a posicao atual do personagem em OLD_CHAR_POS
+		
+		lh t1,2(t0)			# carrega o y atual do personagem
+		addi t1,t1,-16			# decrementa 16 pixeis
+		
+		la t5, level1			# endereço do primeiro byte do mapa
+		li t3, 16
+		divu t4, t1, t3
+		li t3, 20
+		mul t4, t4, t3
+		add t5, t5, t4
+		li t3, 16
+		lh t4, 0(t0)
+		divu t4, t4, t3
+		add t5, t5, t4
+		lbu t4, (t5)
+		bnez t4, FIM			# se o byte não for 0 não pode andar, sai
+		
+		sh t1,2(t0)			# salva
 		ret
 
-CHAR_BAIXO:	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
+CHAR_BAIXO:	la t1, playerstate
+		li t2, 0
+		sw t2, (t1)
+
+		la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 		la t1,OLD_CHAR_POS		# carrega em t1 o endereco de OLD_CHAR_POS
 		lw t2,0(t0)
 		sw t2,0(t1)			# salva a posicao atual do personagem em OLD_CHAR_POS
 		
 		la t0,CHAR_POS
 		lh t1,2(t0)			# carrega o y atual do personagem
-		addi t1,t1,16			# incrementa 30 pixeis
-		li t3, 240
-		bge t1, t3, FIM			# verifica se não está tentando sair do mapa
+		addi t1,t1,16			# incrementa 16 pixeis	
+		
+		la t5, level1			# endereço do primeiro byte do mapa
+		li t3, 16
+		divu t4, t1, t3
+		li t3, 20
+		mul t4, t4, t3
+		add t5, t5, t4
+		li t3, 16
+		lh t4, 0(t0)
+		divu t4, t4, t3
+		add t5, t5, t4
+		lbu t4, (t5)
+		bnez t4, FIM			# se o byte não for 0 não pode andar, sai
+		
 		sh t1,2(t0)			# salva
-		la t1, playerstate
-		li t2, 0
-		sw t2, 0(t1)
 		ret

@@ -30,6 +30,7 @@ SETUP:
 GAME_LOOP:	call KEY			# chama o procedimento de entrada do teclado
 		xori s0,s0,1			# inverte o valor frame atual (somente o registrador)
 		
+		
 		la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 		
 		lw t2, playerstate

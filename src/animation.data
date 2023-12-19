@@ -9,3 +9,5 @@ player_state_sprite: .word playerfront, playerback, playerleft, playerright
 .include "../sprites/player/playerback.data"
 .include "../sprites/player/playerleft.data"
 .include "../sprites/player/playerright.data"
+####### ITEMS #######
+.include "../sprites/mapa/ice.data"

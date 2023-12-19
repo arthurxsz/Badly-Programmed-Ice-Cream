@@ -47,6 +47,7 @@ CHAR_ESQ:	la t1, playerstate
 		addi t1,t1,-16			# decrementa 16 pixeis	
 		
 		j Colisao_horizontal
+		
 FIRST_ESQ:	la t1, playerstate
 		li t2, 2
 		sw t2, (t1)
@@ -165,6 +166,14 @@ Colisao_horizontal:
 		bnez t4, FIM			# se o byte não for 0 não pode andar, sai
 		
 		sh t1,0(t0)			# salva
+		
+		li a2, 122			# define o instrumento
+		li a3,50			# define o volume
+		li a0,60			# le o valor da nota
+		li a1,202 			# le a duracao da nota
+		li a7,31			# define a chamada de syscall
+		ecall				# toca a nota
+		
 		ret
 		
 Colisao_vertical:
@@ -182,6 +191,14 @@ Colisao_vertical:
 		bnez t4, FIM			# se o byte não for 0 não pode andar, sai
 		
 		sh t1,2(t0)			# salva
+		
+		li a2, 122			# define o instrumento
+		li a3,50			# define o volume
+		li a0,60			# le o valor da nota
+		li a1,202 			# le a duracao da nota
+		li a7,31			# define a chamada de syscall
+		ecall				# toca a nota
+		
 		ret
 
 SPEC_BAIXO:	

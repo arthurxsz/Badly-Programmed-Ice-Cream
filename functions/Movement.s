@@ -259,6 +259,7 @@ Coletaveis_x: #s2 = qtd de coletáveis
 	addi s2,s2, 1
 	sb zero,0(t5)
 	beq s2,s3, PROXIMA_FASE		# condição de vitória do jogador
+	j Save_pos_horizontal
 	
 Coletaveis_v: #s2 = qtd de coletáveis
 	li a7,31

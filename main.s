@@ -1,55 +1,97 @@
 .data
+
+#### Definindo player ######
 CHAR_POS:	.half 80,16		# x, y
 OLD_CHAR_POS:	.half 80,16		# x, y
 
 .include "functions/print_score.s"
 
 #####################################################
-#		 VARIAVEIS GLOBAIS		    #
+#		 Map and Player state		    #
 #####################################################
 
-playerstate: .word 0 # 0, 1, 2, 3 para as diferentes posi��es
+playerstate: .word 0 # 0, 1, 2, 3 para as diferentes posicoes
 
 # TAMANHO DO MAPA
 mapwidth: .word	20
 mapheight: .word 15
-#####################################################
-#		 PROGRAMA INCLUI		    #
-#####################################################
 
+# Carregando Levels (Registradores)
+# INFO:
+# s2 => contador de coletaveis
+# s3 => numero de coletaveis max
+# s5 => identificador de nivel
 
 .text
 SETUP_L1:
-		li s3, 8 # numero de coletaveis
-		li s2, 0 # reinicia o contador de coletaveis	
+		li s3, 8 # numero de coletaveis na fase
+		li s2, 0 # reinicia/inicializa o contador de coletaveis	
 		la s4, level1 # carrega informacoes do nivel 1
 		li s5, 0 # identificador de nível
 
 		# esse setup serve pra desenhar o "mapa" nos dois frames antes do "jogo" comecar
 
-		la a0, mapa1
-		li a3, 0
-		call Print
-		li a3, 1
-		call Print
-		la a0, Count00
-		li a1, 16
-		li a2, 64
-		li a3, 0
-		call Print
-		li a3, 1
-		call Print
+		la a0, mapa1 # carrega o endereco do mapa em a0
+		li a3, 0 # carrega o frame 0 em a3
+		call Print # imprime o mapa
+		li a3, 1 # carrega o frame 1 em a3
+		call Print # imprime o mapa
+		la a0, Count00 # carrega pontuacao 00
+		li a1, 16 # posicao x
+		li a2, 64 # posicao y
+		li a3, 0 # frame 0
+		call Print # imprime pontuacao
+		li a3, 1 # frame 1
+		call Print # imprime pontuacao
 
-		j GAME_LOOP
+		j GAME_LOOP # vai para o loop principal
+
+
+# SETUP_L2:
+# 		li s2, 0 # reinicia/inicializa o contador de coletaveis
+# 		li s3, 8 # numero de coletaveis na fase
+# 		la s4, level2 # carrega informacoes do nivel 1
+# 		li s5, 1 # identificador de nível
+
+# 		# esse setup serve pra desenhar o "mapa" nos dois frames antes do "jogo" comecar
+
+# 		la a0, mapa2 # carrega o endereco do mapa em a0
+# 		li a3, 0 # carrega o frame 0 em a3
+# 		call Print # imprime o mapa
+# 		li a3, 1 # carrega o frame 1 em a3
+# 		call Print # imprime o mapa
+# 		la a0, Count00 # carrega pontuacao 00
+# 		li a1, 16 # posicao x
+# 		li a2, 64 # posicao y
+# 		li a3, 0 # frame 0
+# 		call Print # imprime pontuacao
+# 		li a3, 1 # frame 1
+# 		call Print # imprime pontuacao
+
+# 		li t6, 96              # Carrega o valor 96 para t6
+# 		# Modifica o valor em CHAR_POS
+# 		la t0, CHAR_POS        # Carrega o endere�o de CHAR_POS em t0
+# 		sh t6, 0(t0)           # Armazena o valor 96 no primeiro half-word de CHAR_POS
+# 		sh t6, 2(t0)           # Armazena o valor 96 no segundo half-word de CHAR_POS
+		
+# 		# Modifica o valor em OLD_CHAR_POS
+# 		la t0, OLD_CHAR_POS    # Carrega o endere�o de OLD_CHAR_POS em t0
+# 		sh t6, 0(t0)           # Armazena o valor 96 no primeiro half-word de OLD_CHAR_POS
+# 		sh t6, 2(t0)           # Armazena o valor 96 no segundo half-word de OLD_CHAR_POS
+
+# 		j GAME_LOOP # vai para o loop principal
+
 
 GAME_LOOP:	
 		call KEY			# chama o procedimento de entrada do teclado
-		PRINT_SCORE()	
+		PRINT_SCORE()	 # chama macro da pontuacao
 		xori s0,s0,1			# inverte o valor frame atual (somente o registrador)
 		
 		
 		la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 		
+		# printando jogador na tela (com base no frame atual)
+
 		lw t2, playerstate
 		li t3, 4
 		mul t2,t2,t3			# t2 recebe o endere�o correto do player_state_sprite
@@ -63,6 +105,7 @@ GAME_LOOP:
 		
 		li t0,0xFF200604		# carrega em t0 o endereco de troca de frame
 		sw s0,0(t0)			# mostra o sprite pronto para o usuario
+		
 		
 		#####################################
 		# Limpeza do "rastro" do personagem #
@@ -80,7 +123,10 @@ GAME_LOOP:
 		call Print
 
 		j GAME_LOOP			# continua o loop
-		
+
+EXIT:	li a7, 10
+		ecall
+
 .include "functions/Print.s"
 .include "functions/Movement.s"
 

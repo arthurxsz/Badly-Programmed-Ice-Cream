@@ -1,3 +1,7 @@
+###########################
+#   DEFINIÇÃO DE BINDS    #
+###########################
+
 KEY:		
 		li t1,0xFF200000		# carrega o endereco de controle do KDMMIO
 		lw t0,0(t1)			# Le bit de Controle Teclado
@@ -31,6 +35,10 @@ KEY:
 		beq t2,t0,CHAR_SPEC		# se tecla pressionada for 'J', chama CHAR_SPEC			
 			
 FIM:		ret				# retorna
+
+##############################
+#   SISTEMA DE MOVIMENTAÇÃO  #
+##############################
 
 CHAR_ESQ:	la t1, playerstate
 		li t2, 2
@@ -150,6 +158,9 @@ CHAR_SPEC:
 		beq t1, t0, SPEC_RIGHT			#PLAYERSTATE 3 = DIREITA
 		ret
 
+##############################
+#   SISTEMA DE COLISÃO       #
+##############################
 
 Colisao_horizontal: 	
 		la t5, level1			# endere�o do primeiro byte do mapa
@@ -249,6 +260,10 @@ SPEC_BAIXO:
 		beq t4, t0, Break_Blocks_DOWN
 		j FIM
 
+####################################
+# SISTEMA DE COLISÃO (COLETÁVEIS)  #
+###################################
+
 Coletaveis_x: #s2 = qtd de coletáveis
 	li a7,31
 	li a0, 60
@@ -273,19 +288,32 @@ Coletaveis_v: #s2 = qtd de coletáveis
 	beq s2,s3, PROXIMA_FASE
 	j Save_pos_vertical
 
-PROXIMA_FASE:	
-	la a0, victory
-	li a1, 0
+PROXIMA_FASE:
+	#li s8, 0 # carrega no s8 valor do primeiro nivel
+	#beq s5, s8, SETUP_L2   # verifica se o player esta no primeiro nivel
+	
+	#li s8, 1 # carrega no s8 valor do segundo nivel
+	#beq s5 , s8, VITORIA
+	
+	# ISSO AQUI VAI VIRAR A FUNCAO DE VITORIA
+	la a0, victory # carrega o endereco do sprite 'victory' em a0
+	li a1, 0 
 	li a2, 0
-	mv a3, s0
+	mv a3, s0 
 	call Print
 	
-	li a0, 5000
-	li a7, 32
-	ecall
+	# RESET DA FASE E REPETICAO (ENQUANTO NAO TEM FASE 2)
+	li a0, 5000 # delay
+	li a7, 32 # syscall de delay
+	ecall # delay
 	
 	j SETUP_L1	# PROXIMA FASE
-		
+
+
+##############################
+#   SISTEMA DE ATAQUE (GELO) #
+##############################
+
 Build_Blocks_DOWN:
 		li t0, 3
 		beq s8,t0, FIM
@@ -519,3 +547,5 @@ Break_Blocks_LEFT:
 		mv ra,s10
 		addi s9,s9,1
 		j SPEC_LEFT
+
+##############################################

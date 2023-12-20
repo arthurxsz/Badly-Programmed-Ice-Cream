@@ -37,7 +37,8 @@ MENU_LOOP:
 		call KEY2	
 		j MENU_LOOP
 	
-KEY2:		li t1,0xFF200000		# carrega o endereco de controle do KDMMIO
+KEY2:		
+		li t1,0xFF200000		# carrega o endereco de controle do KDMMIO
 		lw t0,0(t1)			# Le bit de Controle Teclado
 		andi t0,t0,0x0001		# mascara o bit menos significativo
    		beq t0,zero,FIM2   	   	# Se nao ha tecla pressionada entao vai para FIM
@@ -83,7 +84,7 @@ SETUP_L1:
 SETUP_L2:
 
 		li s2, 0 # reinicia/inicializa o contador de coletaveis
-		li s3, 8 # numero de coletaveis na fase
+		li s3, 15 # numero de coletaveis na fase
 		la s4, level2 # carrega informacoes do nivel 1
 		li s5, 1 # identificador de nível
 
@@ -206,6 +207,11 @@ EXIT:	li a7, 10
 .include "sprites/mapa/Count80.data"
 .include "sprites/mapa/Count90.data"
 .include "sprites/mapa/Count100.data"
+.include "sprites/mapa/Count110.data"
+.include "sprites/mapa/Count120.data"
+.include "sprites/mapa/Count130.data"
+.include "sprites/mapa/Count140.data"
+.include "sprites/mapa/Count150.data"
 
 .include "sprites/victory.data"
 

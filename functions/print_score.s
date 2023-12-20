@@ -31,6 +31,21 @@
 
 		li t6, 10
 		beq t6,s2, PONTOS10
+
+		li t6, 11
+		beq t6,s2, PONTOS11
+
+		li t6, 12
+		beq t6,s2, PONTOS12
+
+		li t6, 13
+		beq t6,s2, PONTOS13
+
+		li t6, 14
+		beq t6,s2, PONTOS14
+
+		li t6, 15
+		beq t6,s2, PONTOS15
 		
 		
 	PONTOS1:
@@ -119,6 +134,8 @@
 			li a3, 1
 			call Print
 			li t6,0
+			li a0, 2000 # delay
+ 			li a7, 32 # syscall de del
 			beq t6,zero,FIM_PONTOS
 	
 	PONTOS9:
@@ -141,6 +158,64 @@
 			li a3, 1
 			call Print
 			li t6,0
+			beq t6,zero,FIM_PONTOS
+
+	PONTOS11:
+			la a0, Count110
+			li a1, 16
+			li a2, 64	
+			li a3, 0
+			call Print
+			li a3, 1
+			call Print
+			li t6,0
+			beq t6,zero,FIM_PONTOS
+
+	PONTOS12:
+			la a0, Count120
+			li a1, 16
+			li a2, 64	
+			li a3, 0
+			call Print
+			li a3, 1
+			call Print
+			li t6,0
+			beq t6,zero,FIM_PONTOS
+
+	PONTOS13:
+			la a0, Count130
+			li a1, 16
+			li a2, 64	
+			li a3, 0
+			call Print
+			li a3, 1
+			call Print
+			li t6,0
+			beq t6,zero,FIM_PONTOS
+
+	PONTOS14:
+			la a0, Count140
+			li a1, 16
+			li a2, 64	
+			li a3, 0
+			call Print
+			li a3, 1
+			call Print
+			li t6,0
+			beq t6,zero,FIM_PONTOS
+	
+	PONTOS15:
+			la a0, Count150
+			li a1, 16
+			li a2, 64	
+			li a3, 0
+			call Print
+			li a3, 1
+			call Print
+			li t6,0
+			li a0, 2000 # delay
+ 			li a7, 32 # syscall de delay
+
 			beq t6,zero,FIM_PONTOS
 			
 			

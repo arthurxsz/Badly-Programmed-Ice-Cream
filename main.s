@@ -59,7 +59,7 @@ SETUP_L1:
 		call Reseta_matriz
 		li s3, 8 # numero de coletaveis na fase
 		li s2, 0 # reinicia/inicializa o contador de coletaveis	
-		la s4, level1 # carrega informacoes do nivel 1
+		la s4, level1_mutavel # carrega informacoes do nivel 1
 		li s5, 0 # identificador de nível
 
 		# esse setup serve pra desenhar o "mapa" nos dois frames antes do "jogo" comecar

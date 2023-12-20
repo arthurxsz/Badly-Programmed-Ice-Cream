@@ -192,8 +192,8 @@ Colisao_horizontal:
 		beq t4, t6, Coletaveis_x		# se o byte for igual a 2 é um coletavel, pega, aumenta a pontuação e anda
 
 		# VERIF INIMIGO
-		# li t6, 6
-		# beq t4, t6, GAME_OVER			
+		li t6, 4
+		beq t4, t6, GAME_OVER			
 		
 		j FIM
 
@@ -230,8 +230,8 @@ Colisao_vertical:
 		beq t4, t6, Coletaveis_v		# se o byte for igual a 2 é um coletavel, pega, aumenta a pontuação e anda
 		
 		# VERIF INIMIGO
-		# li t6, 6
-		# beq t4, t6, GAME_OVER		
+		li t6, 4
+		beq t4, t6, GAME_OVER		
 		
 		j FIM
 

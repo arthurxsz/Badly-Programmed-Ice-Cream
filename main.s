@@ -80,39 +80,42 @@ SETUP_L1:
 		j GAME_LOOP # vai para o loop principal
 
 
-# SETUP_L2:
-# 		li s2, 0 # reinicia/inicializa o contador de coletaveis
-# 		li s3, 8 # numero de coletaveis na fase
-# 		la s4, level2 # carrega informacoes do nivel 1
-# 		li s5, 1 # identificador de nível
+SETUP_L2:
 
-# 		# esse setup serve pra desenhar o "mapa" nos dois frames antes do "jogo" comecar
+		li s2, 0 # reinicia/inicializa o contador de coletaveis
+		li s3, 8 # numero de coletaveis na fase
+		la s4, level2 # carrega informacoes do nivel 1
+		li s5, 1 # identificador de nível
 
-# 		la a0, mapa2 # carrega o endereco do mapa em a0
-# 		li a3, 0 # carrega o frame 0 em a3
-# 		call Print # imprime o mapa
-# 		li a3, 1 # carrega o frame 1 em a3
-# 		call Print # imprime o mapa
-# 		la a0, Count00 # carrega pontuacao 00
-# 		li a1, 16 # posicao x
-# 		li a2, 64 # posicao y
-# 		li a3, 0 # frame 0
-# 		call Print # imprime pontuacao
-# 		li a3, 1 # frame 1
-# 		call Print # imprime pontuacao
+		# esse setup serve pra desenhar o "mapa" nos dois frames antes do "jogo" comecar
+		la a0, mapa2 # carrega o endereco do mapa em a0
+		li a1, 0
+		li a2, 0
+		li a3, 0
+		li a3, 0 # carrega o frame 0 em a3
+		call Print # imprime o mapa
+		li a3, 1 # carrega o frame 1 em a3
+		call Print # imprime o mapa
+		la a0, Count00 # carrega pontuacao 00
+		li a1, 16 # posicao x
+		li a2, 64 # posicao y
+		li a3, 0 # frame 0
+		call Print # imprime pontuacao
+		li a3, 1 # frame 1
+		call Print # imprime pontuacao
 
-# 		li t6, 96              # Carrega o valor 96 para t6
-# 		# Modifica o valor em CHAR_POS
-# 		la t0, CHAR_POS        # Carrega o endere�o de CHAR_POS em t0
-# 		sh t6, 0(t0)           # Armazena o valor 96 no primeiro half-word de CHAR_POS
-# 		sh t6, 2(t0)           # Armazena o valor 96 no segundo half-word de CHAR_POS
+		li t6, 96              # Carrega o valor 96 para t6
+		# Modifica o valor em CHAR_POS
+		la t0, CHAR_POS        # Carrega o endere�o de CHAR_POS em t0
+		sh t6, 0(t0)           # Armazena o valor 96 no primeiro half-word de CHAR_POS
+		sh t6, 2(t0)           # Armazena o valor 96 no segundo half-word de CHAR_POS
 		
-# 		# Modifica o valor em OLD_CHAR_POS
-# 		la t0, OLD_CHAR_POS    # Carrega o endere�o de OLD_CHAR_POS em t0
-# 		sh t6, 0(t0)           # Armazena o valor 96 no primeiro half-word de OLD_CHAR_POS
-# 		sh t6, 2(t0)           # Armazena o valor 96 no segundo half-word de OLD_CHAR_POS
+		# Modifica o valor em OLD_CHAR_POS
+		la t0, OLD_CHAR_POS    # Carrega o endere�o de OLD_CHAR_POS em t0
+		sh t6, 0(t0)           # Armazena o valor 96 no primeiro half-word de OLD_CHAR_POS
+		sh t6, 2(t0)           # Armazena o valor 96 no segundo half-word de OLD_CHAR_POS
 
-# 		j GAME_LOOP # vai para o loop principal
+		j GAME_LOOP # vai para o loop principal
 
 
 ##############################
@@ -187,6 +190,7 @@ EXIT:	li a7, 10
 
 .data
 .include "sprites/mapa/mapa1.data"
+.include "sprites/mapa/mapa2.data"
 .include "sprites/mapa/snow.data"
 .include "src/animation.data"
 
@@ -213,8 +217,9 @@ EXIT:	li a7, 10
 .include "sprites/menu.data"
 
 .include "levelInformation/level1/level1.data"
+.include "levelInformation/level2/level2.data"
 .include "levelInformation/level1/level1_mutavel.data"
 
 # inimigo
 
-.include "functions/inimigo.s"
+# .include "functions/inimigo.s"

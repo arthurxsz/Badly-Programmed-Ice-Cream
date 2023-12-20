@@ -163,7 +163,7 @@ CHAR_SPEC:
 ##############################
 
 Colisao_horizontal: 	
-		la t5, level1_mutavel		# endere�o do primeiro byte do mapa
+		mv t5, s4		# endere�o do primeiro byte do mapa
 		li t3, 16			# t3 = 16	
 		divu t3, t1, t3			# t3 = x/16 endere�o real x no mapa
 		add t5, t5, t3			# endere�o mapa + posi��o x
@@ -202,7 +202,7 @@ Save_pos_horizontal:
 		j FIM
 		
 Colisao_vertical:
-		la t5, level1_mutavel		# endere�o do primeiro byte do mapa
+		mv t5, s4			# endere�o do primeiro byte do mapa
 		li t3, 16			# t3 = 16
 		divu t4, t1, t3			# t4 = y/16
 		li t3, 20			# t3 = 20	
@@ -249,7 +249,7 @@ SPEC_BAIXO:
 		mul t4,t4,s9
 		add t1,t1,t4			# aumenta 16 pixeis	
 		# T1 AGORA POSSUI A POSICAO EM Y DO BLOCO ABAIXO DO PLAYER
-		la t5, level1_mutavel		# endere�o do primeiro byte do mapa
+		mv t5, s4			# endere�o do primeiro byte do mapa
 		li t3, 16			# t3 = 16
 		divu t4, t1, t3			# t4 = y/16 (para encontrar na matriz??)
 		li t3, 20			# t3 = 20	
@@ -369,7 +369,7 @@ SPEC_UP:
 		add t1,t1,t4			# decrementa 16 pixeis * s9
 		#### TESTE COMPARATIVO ####	
 		# T1 AGORA POSSUI A POSICAO EM Y DO BLOCO ABAIXO DO PLAYER
-		la t5, level1_mutavel		# endere�o do primeiro byte do mapa
+		mv t5, s4			# endere�o do primeiro byte do mapa
 		li t3, 16			# t3 = 16
 		divu t4, t1, t3			# t4 = y/16 (para encontrar na matriz??)
 		li t3, 20			# t3 = 20	
@@ -434,7 +434,7 @@ SPEC_RIGHT:
 		mul t4,t4,s9
 		add t1,t1,t4			# t1 posi��o x real
 		#### TESTE COMPARATIVO ####
-		la t5, level1_mutavel		# endere�o do primeiro byte do mapa
+		mv t5, s4			# endere�o do primeiro byte do mapa
 		li t3, 16			# t3 = 16	
 		divu t3, t1, t3			# t3 = x/16 endere�o real x no mapa
 		add t5, t5, t3			# endere�o mapa + posi��o x
@@ -499,7 +499,7 @@ SPEC_LEFT:
 		mul t4,t4,s9
 		add t1,t1,t4			# t1 posi��o x real
 		#### TESTE COMPARATIVO ####
-		la t5, level1_mutavel		# endere�o do primeiro byte do mapa
+		mv t5, s4			# endere�o do primeiro byte do mapa
 		li t3, 16			# t3 = 16	
 		divu t3, t1, t3			# t3 = x/16 endere�o real x no mapa
 		add t5, t5, t3			# endere�o mapa + posi��o x

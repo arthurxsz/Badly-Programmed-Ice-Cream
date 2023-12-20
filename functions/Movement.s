@@ -183,13 +183,17 @@ Colisao_horizontal:
 		li a1,202 			# le a duracao da nota
 		li a7,31			# define a chamada de syscall
 		ecall				# toca a nota
-		beq t4,t6, Save_pos_horizontal		# se o byte não for 0 não pode andar, sai        se o byte for 0, pode andar
+		beq t4,t6, Save_pos_horizontal		# se o byte não for 0 não pode andar, sai, se o byte for 0, pode andar
 		
-		li t6,1
+		li t6, 1
 		beq t4, t6, FIM			# se o byte for igual a 1 não pode andar, sai sem salvar a half
 		
-		li t6,2
+		li t6, 2
 		beq t4, t6, Coletaveis_x		# se o byte for igual a 2 é um coletavel, pega, aumenta a pontuação e anda
+
+		# VERIF INIMIGO
+		# li t6, 6
+		# beq t4, t6, GAME_OVER			
 		
 		j FIM
 
@@ -224,6 +228,10 @@ Colisao_vertical:
 		
 		li t6,2
 		beq t4, t6, Coletaveis_v		# se o byte for igual a 2 é um coletavel, pega, aumenta a pontuação e anda
+		
+		# VERIF INIMIGO
+		# li t6, 6
+		# beq t4, t6, GAME_OVER		
 		
 		j FIM
 

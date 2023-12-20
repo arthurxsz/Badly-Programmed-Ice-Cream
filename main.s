@@ -106,7 +106,7 @@ GAME_LOOP:
 		li t0,0xFF200604		# carrega em t0 o endereco de troca de frame
 		sw s0,0(t0)			# mostra o sprite pronto para o usuario
 		
-		
+
 		#####################################
 		# Limpeza do "rastro" do personagem #
 		#####################################
@@ -123,6 +123,22 @@ GAME_LOOP:
 		call Print
 
 		j GAME_LOOP			# continua o loop
+
+
+# GAME_OVER: 
+# 	la a0, lost # carrega o endereco do sprite 'lost' em a0
+# 	li a1, 0  # posicao x
+# 	li a2, 0 # posicao y
+# 	mv a3, s0  # frame atual
+# 	call Print # imprime o sprite
+	
+# 	# Reset da Fase
+# 	li a0, 5000 # delay
+# 	li a7, 32 # syscall de delay
+# 	ecall # delay
+	
+# 	beq s5, 0, SETUP_L1 # reinicia a fase 1
+# 	j SETUP_L2 # reinicia a fase 2	
 
 EXIT:	li a7, 10
 		ecall

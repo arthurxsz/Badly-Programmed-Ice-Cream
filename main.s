@@ -2,11 +2,13 @@
 CHAR_POS:	.half 80,16		# x, y
 OLD_CHAR_POS:	.half 80,16		# x, y
 
+.include "functions/print_score.s"
+
 #####################################################
 #		 VARIAVEIS GLOBAIS		    #
 #####################################################
 
-playerstate: .word 0 # 0, 1, 2, 3 para as diferentes posições
+playerstate: .word 0 # 0, 1, 2, 3 para as diferentes posiï¿½ï¿½es
 
 # TAMANHO DO MAPA
 mapwidth: .word	20
@@ -17,17 +19,32 @@ mapheight: .word 15
 
 
 .text
-SETUP:	
-		la a0,mapa1			# carrega o endereco do sprite 'map' em a0
-		li a1,0				# x = 0
-		li a2,0				# y = 0
-		li a3,0				# frame = 0
-		call Print			# imprime o sprite
-		li a3,1				# frame = 1
-		call Print			# imprime o sprite
+SETUP_L1:
+		li s3, 5 # numero de coletaveis
+		li s2, 0 # reinicia o contador de coletaveis	
+		la s4, level1 # carrega informacoes do nivel 1
+		li s5, 0 # identificador de nÃ­vel
+
 		# esse setup serve pra desenhar o "mapa" nos dois frames antes do "jogo" comecar
 
-GAME_LOOP:	call KEY			# chama o procedimento de entrada do teclado
+		la a0, mapa1
+		li a3, 0
+		call Print
+		li a3, 1
+		call Print
+		la a0, Count00
+		li a1, 16
+		li a2, 64
+		li a3, 0
+		call Print
+		li a3, 1
+		call Print
+
+		j GAME_LOOP
+
+GAME_LOOP:	
+		call KEY			# chama o procedimento de entrada do teclado
+		PRINT_SCORE()	
 		xori s0,s0,1			# inverte o valor frame atual (somente o registrador)
 		
 		
@@ -35,9 +52,9 @@ GAME_LOOP:	call KEY			# chama o procedimento de entrada do teclado
 		
 		lw t2, playerstate
 		li t3, 4
-		mul t2,t2,t3			# t2 recebe o endereço correto do player_state_sprite
-		la t1, player_state_sprite	# player_state_sprite contém todos os sprites de movimentação 
-		add t1, t1, t2			# t1 é o endereço do sprite a ser impresso	
+		mul t2,t2,t3			# t2 recebe o endereï¿½o correto do player_state_sprite
+		la t1, player_state_sprite	# player_state_sprite contï¿½m todos os sprites de movimentaï¿½ï¿½o 
+		add t1, t1, t2			# t1 ï¿½ o endereï¿½o do sprite a ser impresso	
 		lw a0, 0(t1)			# carrega o endereco do sprite 'char' em a0
 		lh a1,0(t0)			# carrega a posicao x do personagem em a1
 		lh a2,2(t0)			# carrega a posicao y do personagem em a2
@@ -59,6 +76,8 @@ GAME_LOOP:	call KEY			# chama o procedimento de entrada do teclado
 		mv a3,s0			# carrega o frame atual (que esta na tela em a3)
 		xori a3,a3,1			# inverte a3 (0 vira 1, 1 vira 0)
 		call Print			# imprime
+		xori a3,a3,0
+		call Print
 
 		j GAME_LOOP			# continua o loop
 		
@@ -70,6 +89,24 @@ GAME_LOOP:	call KEY			# chama o procedimento de entrada do teclado
 .include "sprites/mapa/mapa1.data"
 .include "sprites/mapa/snow.data"
 .include "src/animation.data"
+
+# sprites pontos
+.include "sprites/mapa/Count00.data"
+.include "sprites/mapa/Count10.data"
+.include "sprites/mapa/Count20.data"
+.include "sprites/mapa/Count30.data"
+.include "sprites/mapa/Count40.data"
+.include "sprites/mapa/Count50.data"
+.include "sprites/mapa/Count60.data"
+.include "sprites/mapa/Count70.data"
+.include "sprites/mapa/Count80.data"
+.include "sprites/mapa/Count90.data"
+.include "sprites/mapa/Count100.data"
+
+# sprites coletaveis
+
+.include "sprites/mapa/grape.data"
+.include "sprites/mapa/apple.data"
 
 .include "sprites/menu.data"
 

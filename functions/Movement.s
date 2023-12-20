@@ -152,54 +152,74 @@ CHAR_SPEC:
 
 
 Colisao_horizontal: 	
-		la t5, level1			# endereço do primeiro byte do mapa
+		la t5, level1			# endereï¿½o do primeiro byte do mapa
 		li t3, 16			# t3 = 16	
-		divu t3, t1, t3			# t3 = x/16 endereço real x no mapa
-		add t5, t5, t3			# endereço mapa + posição x
+		divu t3, t1, t3			# t3 = x/16 endereï¿½o real x no mapa
+		add t5, t5, t3			# endereï¿½o mapa + posiï¿½ï¿½o x
 		li t3, 16
 		lh t4, 2(t0)			# t4 = y do personagem
-		divu t4, t4, t3			# t4 = y/16 endereço real y no mapa
+		divu t4, t4, t3			# t4 = y/16 endereï¿½o real y no mapa
 		li t3, 20			# t3 = 20
 		mul t4, t4, t3			# t4 = t4 * 20
-		add t5, t5, t4			# endereço do mapa + posição y real
-		lbu t4, (t5)			# t4 = byte da posição do personagem
-		bnez t4, FIM			# se o byte não for 0 não pode andar, sai
-		
-		sh t1,0(t0)			# salva
-		
+		add t5, t5, t4			# endereï¿½o do mapa + posiï¿½ï¿½o y real
+		lbu t4, (t5)			# t4 = byte da posiï¿½ï¿½o do personagem
+
+		# testar as opÃ§oes
+		li t6,0
 		li a2, 122			# define o instrumento
 		li a3,50			# define o volume
 		li a0,60			# le o valor da nota
 		li a1,202 			# le a duracao da nota
 		li a7,31			# define a chamada de syscall
 		ecall				# toca a nota
+		beq t4,t6, Save_pos_horizontal		# se o byte nÃ£o for 0 nÃ£o pode andar, sai        se o byte for 0, pode andar
 		
-		ret
+		li t6,1
+		beq t4, t6, FIM			# se o byte for igual a 1 nÃ£o pode andar, sai sem salvar a half
+		
+		li t6,2
+		beq t4, t6, Coletaveis_x		# se o byte for igual a 2 Ã© um coletavel, pega, aumenta a pontuaÃ§Ã£o e anda
+		
+		j FIM
+
+Save_pos_horizontal:	
+		sh t1,0(t0)			# salva
+		j FIM
 		
 Colisao_vertical:
-		la t5, level1			# endereço do primeiro byte do mapa
+		la t5, level1			# endereï¿½o do primeiro byte do mapa
 		li t3, 16			# t3 = 16
 		divu t4, t1, t3			# t4 = y/16
 		li t3, 20			# t3 = 20	
 		mul t4, t4, t3			# t4 = t4 * 20 y no mapa level
-		add t5, t5, t4			# endereço do primeiro byte do mapa + y 
+		add t5, t5, t4			# endereï¿½o do primeiro byte do mapa + y 
 		li t3, 16			# t3 = 16
 		lh t4, 0(t0)			# t4 = x (char_pos)	
 		divu t4, t4, t3			# t4 = x/16
-		add t5, t5, t4			# endereço do mapa + x	
-		lbu t4, (t5)			# t4 = byte da posição do personagem
-		bnez t4, FIM			# se o byte não for 0 não pode andar, sai
+		add t5, t5, t4			# endereï¿½o do mapa + x	
+		lbu t4, (t5)			# t4 = byte da posiï¿½ï¿½o do personagem
 		
-		sh t1,2(t0)			# salva
-		
+		li t6,0
 		li a2, 122			# define o instrumento
 		li a3,50			# define o volume
 		li a0,60			# le o valor da nota
 		li a1,202 			# le a duracao da nota
 		li a7,31			# define a chamada de syscall
 		ecall				# toca a nota
+		beq t4,t6, Save_pos_vertical	
 		
-		ret
+		li t6,1
+		beq t4, t6, FIM			# se o byte for igual a 1 nÃ£o pode andar, sai sem salvar a half
+		
+		li t6,2
+		beq t4, t6, Coletaveis_v		# se o byte for igual a 2 Ã© um coletavel, pega, aumenta a pontuaÃ§Ã£o e anda
+		
+		j FIM
+
+Save_pos_vertical:	
+		sh t1,2(t0)			# salva
+		j FIM
+			
 
 SPEC_BAIXO:	
 		# s9 = contador
@@ -210,24 +230,50 @@ SPEC_BAIXO:
 		mul t4,t4,s9
 		add t1,t1,t4			# aumenta 16 pixeis	
 		# T1 AGORA POSSUI A POSICAO EM Y DO BLOCO ABAIXO DO PLAYER
-		la t5, level1			# endereço do primeiro byte do mapa
+		la t5, level1			# endereï¿½o do primeiro byte do mapa
 		li t3, 16			# t3 = 16
 		divu t4, t1, t3			# t4 = y/16 (para encontrar na matriz??)
 		li t3, 20			# t3 = 20	
 		mul t4, t4, t3			# t4 = t4 * 20 y no mapa level
-		add t5, t5, t4			# endereço do primeiro byte do mapa + y
-		# T5 AGORA POSSUI O ENDEREÇO DO BLOCO NO MAPA 
+		add t5, t5, t4			# endereï¿½o do primeiro byte do mapa + y
+		# T5 AGORA POSSUI O ENDEREï¿½O DO BLOCO NO MAPA 
 		li t3, 16			# t3 = 16
 		lh t4, 0(t0)			# t4 = x (char_pos)	
 		divu t4, t4, t3			# t4 = x/16
-		add t5, t5, t4			# endereço do mapa + x	
-		lbu t4, (t5)			# t4 = byte da posição do personagem
+		add t5, t5, t4			# endereï¿½o do mapa + x	
+		lbu t4, (t5)			# t4 = byte da posiï¿½ï¿½o do personagem
 		li t0, 1
 		beq t4,t0, FIM
 		beqz t4, Build_Blocks_DOWN	# se o byte for 0, construi os blocos
 		li t0, 3
 		beq t4, t0, Break_Blocks_DOWN
 		j FIM
+
+Coletaveis_x: #s2 = qtd de coletÃ¡veis
+	li a7,31
+	li a0, 60
+	li a1, 150		# som de pegar coletavel
+	li a2, 99
+	li a3, 50
+	ecall
+	addi s2,s2, 1
+	sb zero,0(t5)
+	beq s2,s3, PROXIMA_FASE		# condiÃ§Ã£o de vitÃ³ria do jogador
+	
+Coletaveis_v: #s2 = qtd de coletÃ¡veis
+	li a7,31
+	li a0, 60
+	li a1, 150		# som de pegar coletavel
+	li a2, 99
+	li a3, 50
+	ecall
+	addi s2,s2, 1
+	sb zero,0(t5)
+	beq s2,s3, PROXIMA_FASE
+	j Save_pos_vertical
+
+PROXIMA_FASE:	
+		# PROXIMA FASE
 		
 Build_Blocks_DOWN:
 		li t0, 3
@@ -276,18 +322,18 @@ SPEC_UP:
 		add t1,t1,t4			# decrementa 16 pixeis * s9
 		#### TESTE COMPARATIVO ####	
 		# T1 AGORA POSSUI A POSICAO EM Y DO BLOCO ABAIXO DO PLAYER
-		la t5, level1			# endereço do primeiro byte do mapa
+		la t5, level1			# endereï¿½o do primeiro byte do mapa
 		li t3, 16			# t3 = 16
 		divu t4, t1, t3			# t4 = y/16 (para encontrar na matriz??)
 		li t3, 20			# t3 = 20	
 		mul t4, t4, t3			# t4 = t4 * 20 y no mapa level
-		add t5, t5, t4			# endereço do primeiro byte do mapa + y
-		# T5 AGORA POSSUI O ENDEREÇO DO BLOCO NO MAPA 
+		add t5, t5, t4			# endereï¿½o do primeiro byte do mapa + y
+		# T5 AGORA POSSUI O ENDEREï¿½O DO BLOCO NO MAPA 
 		li t3, 16			# t3 = 16
 		lh t4, 0(t0)			# t4 = x (char_pos)	
 		divu t4, t4, t3			# t4 = x/16
-		add t5, t5, t4			# endereço do mapa + x	
-		lbu t4, (t5)			# t4 = byte da posição do personagem
+		add t5, t5, t4			# endereï¿½o do mapa + x	
+		lbu t4, (t5)			# t4 = byte da posiï¿½ï¿½o do personagem
 		############################
 		li t0, 1
 		beq t4,t0, FIM
@@ -339,20 +385,20 @@ SPEC_RIGHT:
 		lh t1,0(t0)			# t1 = POSICAO X DO PERSONAGEM
 		li t4, 16
 		mul t4,t4,s9
-		add t1,t1,t4			# t1 posição x real
+		add t1,t1,t4			# t1 posiï¿½ï¿½o x real
 		#### TESTE COMPARATIVO ####
-		la t5, level1			# endereço do primeiro byte do mapa
+		la t5, level1			# endereï¿½o do primeiro byte do mapa
 		li t3, 16			# t3 = 16	
-		divu t3, t1, t3			# t3 = x/16 endereço real x no mapa
-		add t5, t5, t3			# endereço mapa + posição x
-		# T5 RECEBE A POSIÇÃO CORRETA DE X NO MAPA
+		divu t3, t1, t3			# t3 = x/16 endereï¿½o real x no mapa
+		add t5, t5, t3			# endereï¿½o mapa + posiï¿½ï¿½o x
+		# T5 RECEBE A POSIï¿½ï¿½O CORRETA DE X NO MAPA
 		li t3, 16
 		lh t4, 2(t0)			# t4 = y do personagem
-		divu t4, t4, t3			# t4 = y/16 endereço real y no mapa
+		divu t4, t4, t3			# t4 = y/16 endereï¿½o real y no mapa
 		li t3, 20			# t3 = 20
 		mul t4, t4, t3			# t4 = t4 * 20
-		add t5, t5, t4			# endereço do mapa + posição y real
-		lbu t4, (t5)			# t4 = byte da posição do personagem
+		add t5, t5, t4			# endereï¿½o do mapa + posiï¿½ï¿½o y real
+		lbu t4, (t5)			# t4 = byte da posiï¿½ï¿½o do personagem
 		###########################
 		li t0, 1
 		beq t4,t0, FIM
@@ -404,20 +450,20 @@ SPEC_LEFT:
 		lh t1,0(t0)			# t1 = POSICAO X DO PERSONAGEM
 		li t4, -16
 		mul t4,t4,s9
-		add t1,t1,t4			# t1 posição x real
+		add t1,t1,t4			# t1 posiï¿½ï¿½o x real
 		#### TESTE COMPARATIVO ####
-		la t5, level1			# endereço do primeiro byte do mapa
+		la t5, level1			# endereï¿½o do primeiro byte do mapa
 		li t3, 16			# t3 = 16	
-		divu t3, t1, t3			# t3 = x/16 endereço real x no mapa
-		add t5, t5, t3			# endereço mapa + posição x
-		# T5 RECEBE A POSIÇÃO CORRETA DE X NO MAPA
+		divu t3, t1, t3			# t3 = x/16 endereï¿½o real x no mapa
+		add t5, t5, t3			# endereï¿½o mapa + posiï¿½ï¿½o x
+		# T5 RECEBE A POSIï¿½ï¿½O CORRETA DE X NO MAPA
 		li t3, 16
 		lh t4, 2(t0)			# t4 = y do personagem
-		divu t4, t4, t3			# t4 = y/16 endereço real y no mapa
+		divu t4, t4, t3			# t4 = y/16 endereï¿½o real y no mapa
 		li t3, 20			# t3 = 20
 		mul t4, t4, t3			# t4 = t4 * 20
-		add t5, t5, t4			# endereço do mapa + posição y real
-		lbu t4, (t5)			# t4 = byte da posição do personagem
+		add t5, t5, t4			# endereï¿½o do mapa + posiï¿½ï¿½o y real
+		lbu t4, (t5)			# t4 = byte da posiï¿½ï¿½o do personagem
 		###########################
 		li t0, 1
 		beq t4,t0, FIM

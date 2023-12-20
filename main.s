@@ -166,20 +166,36 @@ GAME_LOOP:
 		j GAME_LOOP			# continua o loop
 
 
-# GAME_OVER: 
-# 	la a0, lost # carrega o endereco do sprite 'lost' em a0
-# 	li a1, 0  # posicao x
-# 	li a2, 0 # posicao y
-# 	mv a3, s0  # frame atual
-# 	call Print # imprime o sprite
+GAME_OVER: 
+	la a0, GameOver # carrega o endereco do sprite 'lost' em a0
+	li a1, 0  # posicao x
+	li a2, 0 # posicao y
+	mv a3, s0  # frame atual
+	call Print # imprime o sprite
 	
-# 	# Reset da Fase
-# 	li a0, 5000 # delay
-# 	li a7, 32 # syscall de delay
-# 	ecall # delay
+	# Reset da Fase
+	li a0, 4000 # delay
+	li a7, 32 # syscall de delay
+	ecall # delay
+
+	li t6, 80              # Carrega o valor 96 para t6
+	# Modifica o valor em CHAR_POS
+	la t0, CHAR_POS        # Carrega o endere�o de CHAR_POS em t0
+	sh t6, 0(t0)           # Armazena o valor 96 no primeiro half-word de CHAR_POS
+	li t6, 16
+	sh t6, 2(t0)           # Armazena o valor 96 no segundo half-word de CHAR_POS
 	
-# 	beq s5, 0, SETUP_L1 # reinicia a fase 1
-# 	j SETUP_L2 # reinicia a fase 2	
+	# Modifica o valor em OLD_CHAR_POS
+	li t6, 80
+	la t0, OLD_CHAR_POS    # Carrega o endere�o de OLD_CHAR_POS em t0
+	sh t6, 0(t0)           # Armazena o valor 96 no primeiro half-word de OLD_CHAR_POS
+	li t6, 16
+	sh t6, 2(t0)           # Armazena o valor 96 no segundo half-word de OLD_CHAR_POS
+
+	
+	li s11, 0 # reinicia o contador de coletaveis
+	beq s5, s11, SETUP_L1 # reinicia a fase 1
+	j SETUP_L2 # reinicia a fase 2	
 
 EXIT:	li a7, 10
 		ecall
@@ -221,6 +237,7 @@ EXIT:	li a7, 10
 .include "sprites/mapa/apple.data"
 
 .include "sprites/menu.data"
+.include "sprites/GameOver.data"
 
 .include "levelInformation/level1/level1.data"
 .include "levelInformation/level2/level2.data"

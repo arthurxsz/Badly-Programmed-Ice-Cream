@@ -20,7 +20,7 @@ mapheight: .word 15
 
 .text
 SETUP_L1:
-		li s3, 5 # numero de coletaveis
+		li s3, 8 # numero de coletaveis
 		li s2, 0 # reinicia o contador de coletaveis	
 		la s4, level1 # carrega informacoes do nivel 1
 		li s5, 0 # identificador de nível

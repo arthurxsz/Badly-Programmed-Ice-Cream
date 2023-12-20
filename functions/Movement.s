@@ -273,7 +273,7 @@ Coletaveis_v: #s2 = qtd de coletáveis
 	j Save_pos_vertical
 
 PROXIMA_FASE:	
-		# PROXIMA FASE
+	j FIM	# PROXIMA FASE
 		
 Build_Blocks_DOWN:
 		li t0, 3

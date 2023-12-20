@@ -274,7 +274,17 @@ Coletaveis_v: #s2 = qtd de coletáveis
 	j Save_pos_vertical
 
 PROXIMA_FASE:	
-	j FIM	# PROXIMA FASE
+	la a0, victory
+	li a1, 0
+	li a2, 0
+	mv a3, s0
+	call Print
+	
+	li a0, 5000
+	li a7, 32
+	ecall
+	
+	j SETUP_L1	# PROXIMA FASE
 		
 Build_Blocks_DOWN:
 		li t0, 3

@@ -103,6 +103,8 @@ GAME_LOOP:
 .include "sprites/mapa/Count90.data"
 .include "sprites/mapa/Count100.data"
 
+.include "sprites/victory.data"
+
 # sprites coletaveis
 
 .include "sprites/mapa/grape.data"

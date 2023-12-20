@@ -24,6 +24,7 @@ mapheight: .word 15
 
 .text
 SETUP_L1:
+		call Reseta_matriz
 		li s3, 8 # numero de coletaveis na fase
 		li s2, 0 # reinicia/inicializa o contador de coletaveis	
 		la s4, level1 # carrega informacoes do nivel 1
@@ -145,6 +146,7 @@ EXIT:	li a7, 10
 
 .include "functions/Print.s"
 .include "functions/Movement.s"
+.include "functions/Reseta_matriz.s"
 
 
 .data
@@ -175,3 +177,8 @@ EXIT:	li a7, 10
 .include "sprites/menu.data"
 
 .include "levelInformation/level1/level1.data"
+.include "levelInformation/level1/level1_mutavel.data"
+
+# inimigo
+
+.include "functions/inimigo.s"

@@ -25,6 +25,12 @@
 		
 		li t6, 8
 		beq t6,s2, PONTOS8
+
+		li t6, 9
+		beq t6,s2, PONTOS9
+
+		li t6, 10
+		beq t6,s2, PONTOS10
 		
 		
 	PONTOS1:
@@ -114,6 +120,29 @@
 			call Print
 			li t6,0
 			beq t6,zero,FIM_PONTOS
+	
+	PONTOS9:
+			la a0, Count90
+			li a1, 16
+			li a2, 64	
+			li a3, 0
+			call Print
+			li a3, 1
+			call Print
+			li t6,0
+			beq t6,zero,FIM_PONTOS
+
+	PONTOS10:
+			la a0, Count100
+			li a1, 16
+			li a2, 64	
+			li a3, 0
+			call Print
+			li a3, 1
+			call Print
+			li t6,0
+			beq t6,zero,FIM_PONTOS
+			
 			
 	FIM_PONTOS:
 		

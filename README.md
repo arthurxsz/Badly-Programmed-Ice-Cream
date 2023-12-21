@@ -1,5 +1,6 @@
 # Badly Programmed Ice Cream
-Projeto da disciplina Introdução aos Sistemas Computacionais
+Jogo inspirado no clássico Bad Ice Cream como projeto final para disciplina Introdução aos Sistemas Computacionais.
+Criado pelos alunos [@The3rdMega](https://github.com/The3rdMega), [@arthurxsz](https://github.com/arthurxsz) e [@ogjoaoc ](https://github.com/ogjoaoc).
 
 ## Como rodar
 + Dois cliques no run.bat

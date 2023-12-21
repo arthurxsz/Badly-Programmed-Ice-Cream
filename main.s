@@ -21,8 +21,13 @@ OLD_CHAR_POS:	.half 80,16		# x, y
 ENE_POS: 	.half 75, 10
 OLD_ENE_POS:	.half 75, 10
 
+###		Música Menu		###
 TAMANHO: .word 80
 NOTAS: 36,202,36,202,40,202,36,202,47,202,36,101,45,202,36,101,36,303,36,101,36,202,40,202,36,202,47,202,36,101,45,405,36,101,36,202,36,202,40,202,36,202,47,202,36,101,45,202,36,101,36,303,36,101,36,202,40,202,36,202,47,202,36,101,45,405,36,101,36,202,36,202,40,202,36,202,47,202,36,101,45,202,36,101,36,303,36,101,36,202,40,202,36,202,47,202,36,101,45,405,36,101,36,202,36,202,40,202,36,202,47,202,36,101,45,202,36,101,36,303,36,101,36,202,40,202,36,202,47,202,36,101,45,405,36,101,74,2430,76,405,77,405,74,2430,71,405,74,405,72,2835,72,101,74,101,76,101,76,101,77,3240
+
+### 	Música Win 		###
+TAMANHO_WIN: .word 78
+NOTAS_WIN: 69,185,60,92,71,92,72,462,71,92,69,92,71,92,72,185,76,185,74,185,60,92,71,92,67,740,64,92,65,92,63,92,64,92,67,185,60,92,69,92,71,740,67,92,71,92,74,185,72,185,60,92,74,92,76,740,60,370,72,185,60,92,69,92,72,555,69,185,72,185,76,185,74,185,60,92,76,92,74,740,67,92,65,92,64,92,65,92,67,185,60,92,69,92,71,555,67,185,74,370,73,185,60,92,74,92,76,740,69,370,77,185,60,92,76,92,74,740,71,92,72,92,74,92,76,92,77,185,60,92,76,92,74,740,71,92,60,92,72,92,74,1572,71,370,53,185,58,185,63,185,68,185,73,185,78,185
 
 .include "functions/print_score.s"
 
@@ -259,12 +264,33 @@ WIN:
 	li a2, 0
 	mv a3, s0 
 	call Print
+
+	la a4,TAMANHO_WIN		# define o endereÃ§o do nÃºmero de notas
+	lw a5,0(a4)		# le o numero de notas
+	la a4,NOTAS_WIN		# define o endereÃ§o das notas
+	li t0,0			# zera o contador de notas
+	li a2,0			# define o instrumento
+	li a3,127		# define o volume
+	li a6, 0		# a6 é o contador de notas
+
+LOOP_WIN:
+	beq a6,a5,EXIT		# contador chegou no final? entÃ£o sai do programa
+	lw a0,0(a4)		# le o valor da nota
+	lw a1,4(a4)		# le a duracao da nota
+	li a7,31		# define a chamada de syscall
+	ecall			# toca a nota
+	mv a0,a1		# passa a duraÃ§Ã£o da nota para a pausa
+	li a7,32		# define a chamada de syscall 
+	ecall			# realiza uma pausa de a0 ms
+	addi a4,a4,8		# incrementa para o endereÃ§o da prÃ³xima nota
+	addi a6,a6,1		# incrementa o contador de notas
+	j LOOP_WIN
 	
-	li a0, 5000 # delay
-	li a7, 32 # syscall de delay
-	ecall # delay
+	# li a0, 5000 # delay
+	# li a7, 32 # syscall de delay
+	# ecall # delay
 	
-	j EXIT
+	# j EXIT
 
 EXIT:	li a7, 10
 		ecall

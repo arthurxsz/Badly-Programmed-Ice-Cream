@@ -1,6 +1,13 @@
-Reseta_matriz: 
+Reseta_matriz_lv1: 
 		la t0, level1
 		la t1, level1_mutavel
+		li t3, 0
+		li t4, 300
+		j Loop_matriz
+
+Reseta_matriz_lv2: 
+		la t0, level2
+		la t1, level2_mutavel
 		li t3, 0
 		li t4, 300
 		
@@ -15,3 +22,4 @@ Loop_matriz:
 		j Loop_matriz
 
 Fim_matriz: 		ret
+

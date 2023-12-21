@@ -32,9 +32,26 @@ KEY:
 		li t0, 'j'
 		beq t2,t0,CHAR_SPEC		# se tecla pressionada for 'j', chama CHAR_SPEC
 		li t0, 'J'
-		beq t2,t0,CHAR_SPEC		# se tecla pressionada for 'J', chama CHAR_SPEC			
+		beq t2,t0,CHAR_SPEC		# se tecla pressionada for 'J', chama CHAR_SPEC		
+		
+		li t0, 'n'
+		beq t2,t0,TROCA_FASE		# se tecla pressionada for 'j', chama CHAR_SPEC
+		li t0, 'N'
+		beq t2,t0,TROCA_FASE		# se tecla pressionada for 'J', chama CHAR_SPEC		
 			
 FIM:		ret				# retorna
+
+##############################
+#        TROCA DE FASE	     #
+##############################
+
+TROCA_FASE:
+	beqz s5, JUMP_LEVEL2
+	j SETUP_L1
+	
+JUMP_LEVEL2: 
+	j SETUP_L2
+
 
 ##############################
 #   SISTEMA DE MOVIMENTAÇÃO  #

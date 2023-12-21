@@ -57,7 +57,7 @@ FIM2:		ret				# retorna
 #		SETUP LEVELS        #
 ##############################
 SETUP_L1:
-		call Reseta_matriz
+		call Reseta_matriz_lv1
 		li s3, 8 # numero de coletaveis na fase
 		li s2, 0 # reinicia/inicializa o contador de coletaveis	
 		la s4, level1_mutavel # carrega informacoes do nivel 1
@@ -66,6 +66,8 @@ SETUP_L1:
 		# esse setup serve pra desenhar o "mapa" nos dois frames antes do "jogo" comecar
 
 		la a0, mapa1 # carrega o endereco do mapa em a0
+		li a1, 0
+		li a2, 0
 		li a3, 0 # carrega o frame 0 em a3
 		call Print # imprime o mapa
 		li a3, 1 # carrega o frame 1 em a3
@@ -77,15 +79,27 @@ SETUP_L1:
 		call Print # imprime pontuacao
 		li a3, 1 # frame 1
 		call Print # imprime pontuacao
+		
+		li t5, 80              # x = 80
+		li t6, 16	       # y = 16
+		# Modifica o valor em CHAR_POS
+		la t0, CHAR_POS        
+		sh t5, 0(t0)           
+		sh t6, 2(t0)           
+		
+		# Modifica o valor em OLD_CHAR_POS
+		la t0, OLD_CHAR_POS    
+		sh t5, 0(t0)           
+		sh t6, 2(t0)  
 
 		j GAME_LOOP # vai para o loop principal
 
 
 SETUP_L2:
-
+		call Reseta_matriz_lv2
 		li s2, 0 # reinicia/inicializa o contador de coletaveis
 		li s3, 15 # numero de coletaveis na fase
-		la s4, level2 # carrega informacoes do nivel 1
+		la s4, level2_mutavel # carrega informacoes do nivel 1
 		li s5, 1 # identificador de nível
 
 		# esse setup serve pra desenhar o "mapa" nos dois frames antes do "jogo" comecar
@@ -241,6 +255,7 @@ EXIT:	li a7, 10
 
 .include "levelInformation/level1/level1.data"
 .include "levelInformation/level2/level2.data"
+.include "levelInformation/level2/level2_mutavel.data"
 .include "levelInformation/level1/level1_mutavel.data"
 
 # inimigo

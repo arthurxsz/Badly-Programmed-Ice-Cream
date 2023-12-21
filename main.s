@@ -27,7 +27,7 @@ mapheight: .word 15
 #		    MENU            #
 #############################
 
-		la a0, menu
+		la a0, Menu
 		li a1, 0
 		li a2, 0
 		li a3, 0
@@ -236,7 +236,7 @@ EXIT:	li a7, 10
 .include "sprites/mapa/grape.data"
 .include "sprites/mapa/apple.data"
 
-.include "sprites/menu.data"
+.include "sprites/Menu.data"
 .include "sprites/GameOver.data"
 
 .include "levelInformation/level1/level1.data"

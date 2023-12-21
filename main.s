@@ -29,6 +29,10 @@ NOTAS: 36,202,36,202,40,202,36,202,47,202,36,101,45,202,36,101,36,303,36,101,36,
 TAMANHO_WIN: .word 78
 NOTAS_WIN: 69,185,60,92,71,92,72,462,71,92,69,92,71,92,72,185,76,185,74,185,60,92,71,92,67,740,64,92,65,92,63,92,64,92,67,185,60,92,69,92,71,740,67,92,71,92,74,185,72,185,60,92,74,92,76,740,60,370,72,185,60,92,69,92,72,555,69,185,72,185,76,185,74,185,60,92,76,92,74,740,67,92,65,92,64,92,65,92,67,185,60,92,69,92,71,555,67,185,74,370,73,185,60,92,74,92,76,740,69,370,77,185,60,92,76,92,74,740,71,92,72,92,74,92,76,92,77,185,60,92,76,92,74,740,71,92,60,92,72,92,74,1572,71,370,53,185,58,185,63,185,68,185,73,185,78,185
 
+###   Música Game over	###
+TAMANHO_GAME_OVER: 9
+NOTAS_GAME_OVER: 64,588,60,294,55,294,64,588,59,588,62,588,67,294,69,294,74,1176
+
 .include "functions/print_score.s"
 
 #####################################################
@@ -234,10 +238,10 @@ GAME_OVER:
 	mv a3, s0  # frame atual
 	call Print # imprime o sprite
 	
-	# Reset da Fase
-	li a0, 4000 # delay
-	li a7, 32 # syscall de delay
-	ecall # delay
+	# # Reset da Fase
+	# li a0, 4000 # delay
+	# li a7, 32 # syscall de delay
+	# ecall # delay
 
 	li t6, 80              # Carrega o valor 96 para t6
 	# Modifica o valor em CHAR_POS
@@ -255,6 +259,29 @@ GAME_OVER:
 
 	
 	li s11, 0 # reinicia o contador de coletaveis
+
+	la a4,TAMANHO_GAME_OVER		# define o endereÃ§o do nÃºmero de notas
+	lw a5,0(a4)		# le o numero de notas
+	la a4,NOTAS_GAME_OVER		# define o endereÃ§o das notas
+	li t0,0			# zera o contador de notas
+	li a2,1			# define o instrumento
+	li a3,127		# define o volume
+	li a6, 0		# a6 é o contador de notas
+
+MUSIC_GAME_OVER:
+	beq a6,a5,FIM_MUSICA		# contador chegou no final? entÃ£o sai do programa
+	lw a0,0(a4)		# le o valor da nota
+	lw a1,4(a4)		# le a duracao da nota
+	li a7,31		# define a chamada de syscall
+	ecall			# toca a nota
+	mv a0,a1		# passa a duraÃ§Ã£o da nota para a pausa
+	li a7,32		# define a chamada de syscall 
+	ecall			# realiza uma pausa de a0 ms
+	addi a4,a4,8		# incrementa para o endereÃ§o da prÃ³xima nota
+	addi a6,a6,1		# incrementa o contador de notas
+	j MUSIC_GAME_OVER
+
+FIM_MUSICA:
 	beq s5, s11, SETUP_L1 # reinicia a fase 1
 	j SETUP_L2 # reinicia a fase 2
 

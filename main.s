@@ -17,6 +17,13 @@
 CHAR_POS:	.half 80,16		# x, y
 OLD_CHAR_POS:	.half 80,16		# x, y
 
+#### Definindo inimigo #####
+ENE_POS: 	.half 75, 10
+OLD_ENE_POS:	.half 75, 10
+
+TAMANHO: .word 80
+NOTAS: 36,202,36,202,40,202,36,202,47,202,36,101,45,202,36,101,36,303,36,101,36,202,40,202,36,202,47,202,36,101,45,405,36,101,36,202,36,202,40,202,36,202,47,202,36,101,45,202,36,101,36,303,36,101,36,202,40,202,36,202,47,202,36,101,45,405,36,101,36,202,36,202,40,202,36,202,47,202,36,101,45,202,36,101,36,303,36,101,36,202,40,202,36,202,47,202,36,101,45,405,36,101,36,202,36,202,40,202,36,202,47,202,36,101,45,202,36,101,36,303,36,101,36,202,40,202,36,202,47,202,36,101,45,405,36,101,74,2430,76,405,77,405,74,2430,71,405,74,405,72,2835,72,101,74,101,76,101,76,101,77,3240
+
 .include "functions/print_score.s"
 
 #####################################################
@@ -45,6 +52,48 @@ mapheight: .word 15
 		li a2, 0
 		li a3, 0
 		call Print
+
+		la a4,TAMANHO		# define o endereÃ§o do nÃºmero de notas
+		lw a5,0(a4)		# le o numero de notas
+		la a4,NOTAS		# define o endereÃ§o das notas
+		li t0,0			# zera o contador de notas
+		li a2,24		# define o instrumento
+		li a3,127		# define o volume
+
+VERIF:    
+		li t1,0xFF200000
+		lw t0,0(t1)
+		andi t0,t0,0x0001
+		beq t0,zero,LOOP
+		lw t2,4(t1)
+
+		li t0,'1'
+		beq t2,t0,SETUP_L1		# se tecla pressionada for '1', vai para o SETUP do main
+		
+		li t0,'2'
+		beq t2,t0,EXIT			# se tecla pressionada for '2', sai do programa
+
+RESET: 	
+		la a4,TAMANHO		# define o endereÃ§o do nÃºmero de notas
+		lw a5,0(a4)		# le o numero de notas
+		la a4,NOTAS		# define o endereÃ§o das notas
+		li t0,0			# zera o contador de notas
+		li a2,24		# define o instrumento
+		li a3,127		# define o volume
+		li a6, 0
+		j VERIF
+LOOP:		
+		beq a6,a5,RESET		# contador chegou no final? entÃ£o volte para o inicio da mÃºsica
+		lw a0,0(a4)		# le o valor da nota
+		lw a1,4(a4)		# le a duracao da nota
+		li a7,31		# define a chamada de syscall
+		ecall			# toca a nota
+		mv a0,a1		# passa a duraÃ§Ã£o da nota para a pausa
+		li a7,32		# define a chamada de syscall 
+		ecall			# realiza uma pausa de a0 ms
+		addi a4,a4,8		# incrementa para o endereÃ§o da prÃ³xima nota
+		addi a6,a6,1		# incrementa o contador de notas
+		j VERIF	# volta ao loop
 	
 MENU_LOOP:
 		call KEY2	
@@ -279,6 +328,7 @@ EXIT:	li a7, 10
 .include "sprites/Menu.data"
 .include "sprites/GameOver.data"
 .include "sprites/Parabens.data"
+.include "sprites/enemies/Enemy1Front.data"
 
 .include "levelInformation/level1/level1.data"
 .include "levelInformation/level2/level2.data"
@@ -286,5 +336,5 @@ EXIT:	li a7, 10
 .include "levelInformation/level1/level1_mutavel.data"
 
 # inimigo
-
+.include "functions/enemy.s"
 # .include "functions/inimigo.s"

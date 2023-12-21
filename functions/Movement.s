@@ -317,8 +317,8 @@ PROXIMA_FASE:
 	li s8, 0 # carrega no s8 valor do primeiro nivel
 	beq s5, s8, SETUP_L2   # verifica se o player esta no primeiro nivel
 	
-	# #li s8, 1 # carrega no s8 valor do segundo nivel
-	# #beq s5 , s8, VITORIA
+	li s8, 1 # carrega no s8 valor do segundo nivel
+	beq s5 , s8, WIN
 	
 	# # ISSO AQUI VAI VIRAR A FUNCAO DE VITORIA
 	# la a0, victory # carrega o endereco do sprite 'victory' em a0

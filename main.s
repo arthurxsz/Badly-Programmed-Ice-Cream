@@ -209,7 +209,20 @@ GAME_OVER:
 	
 	li s11, 0 # reinicia o contador de coletaveis
 	beq s5, s11, SETUP_L1 # reinicia a fase 1
-	j SETUP_L2 # reinicia a fase 2	
+	j SETUP_L2 # reinicia a fase 2
+
+WIN:
+	la a0, Parabens # carrega o endereco do sprite 'victory' em a0
+	li a1, 0 
+	li a2, 0
+	mv a3, s0 
+	call Print
+	
+	li a0, 5000 # delay
+	li a7, 32 # syscall de delay
+	ecall # delay
+	
+	j EXIT
 
 EXIT:	li a7, 10
 		ecall
@@ -252,6 +265,7 @@ EXIT:	li a7, 10
 
 .include "sprites/Menu.data"
 .include "sprites/GameOver.data"
+.include "sprites/Parabens.data"
 
 .include "levelInformation/level1/level1.data"
 .include "levelInformation/level2/level2.data"

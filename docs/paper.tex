@@ -167,7 +167,19 @@ A mecânica de ataque funciona de maneira semelhante à movimentação e também
   \label{fig:05}
   \end{figure}
 
+\subsection{Música}{
+\label{sec:music}
 
+Para a transposição da música de abertura para a forma interpretada em assembly, utilizamos o Hooktheory. Nesse contexto, organizamos as notas musicais e suas durações nessa ordem, representadas por números conforme a interpretação da interface. Os efeitos sonoros foram criados como parte dos testes, nos quais experimentamos os instrumentos disponíveis no próprio RARS em diferentes alturas. Esses testes nos permitiram identificar quais sons poderiam ser associados aos efeitos sonoros desejados. Adicionalmente, incluímos uma música de encerramento para quando a vitória é alcançada.
+}
+
+ \begin{figure}[H]
+  \begin{center}
+   \includegraphics[width=1.0\linewidth]{./Figures/musicas.PNG}
+  \end{center}
+  \caption{Código da música de abertura}
+  \label{fig:05}
+  \end{figure}
 \newpage
 
 \section{Resultados Obtidos}
@@ -180,7 +192,7 @@ Apesar de algumas dificuldades enfrentadas durante o processo de desenvolvimento
     
     \item Logo em seguida, nossa dificuldade era implementar os coletáveis e impedir que o jogador "quebrasse" o jogo invadindo regiões que não devia, problema que foi solucionado com a criação da matriz de representação.
     
-    \item Implementar música no RARS foi um desafio que infelizmente não foi possível concluir devido ao tempo insuficiente conforme a entrega final se aproximava.
+    \item Implementar um inimigo inteligente no RARS foi um desafio que infelizmente não foi possível concluir devido ao tempo insuficiente conforme a entrega final se aproximava.
     
     \item A mecânica do gelo foi um grande desafio, visto que gerava muitos bugs, alguns deles ainda ocultos.
 \end{itemize}
@@ -202,10 +214,15 @@ Desse modo, é visível que o projeto não foi uma tarefa fácil para alunos do 
   \label{fig:05}
 
 
+\vspace{1.5cm}
+\Large Referências
+\vspace{1cm}
+\large
 \bibliographystyle{sbgames}
 \bibliography{bibliography}
 https://github.com/victorlisboa/LAMAR
 https://github.com/LeoRiether/FPGRARS
+https://www.hooktheory.com/theorytab/genres
 
 Aulas do professor Marcus Vinicius Lamar
 

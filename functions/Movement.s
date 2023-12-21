@@ -161,6 +161,7 @@ FIRST_BAIXO:
 		j NAO_MOVE_VER
 
 CHAR_SPEC:
+		GELO()
 		li s9, 1				# inicializa o contador
 		li s8, 10
 		la t1, playerstate

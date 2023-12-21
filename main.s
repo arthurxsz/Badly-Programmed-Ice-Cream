@@ -302,7 +302,7 @@ WIN:
 	li a6, 0		# a6 é o contador de notas
 
 LOOP_WIN:
-	beq a6,a5,EXIT		# contador chegou no final? entÃ£o sai do programa
+	beq a6,a5,EXIT2		# contador chegou no final? entÃ£o sai do programa
 	lw a0,0(a4)		# le o valor da nota
 	lw a1,4(a4)		# le a duracao da nota
 	li a7,31		# define a chamada de syscall
@@ -321,6 +321,19 @@ LOOP_WIN:
 	# j EXIT
 
 EXIT:	li a7, 10
+		ecall
+
+EXIT2:	
+		
+		la a0, gru1 # carrega o endereco do sprite 'victory' em a0
+		li a1, 0 
+		li a2, 0
+		mv a3, s0 
+		call Print
+		li a0, 10000 # delay
+		li a7, 32 # syscall de delay
+		ecall # delay
+		li a7, 10
 		ecall
 
 .include "functions/Print.s"
@@ -372,3 +385,6 @@ EXIT:	li a7, 10
 # inimigo
 .include "functions/enemy.s"
 # .include "functions/inimigo.s"
+
+.include "sprites/gru1.s"
+.include"sprites/gru2.s"

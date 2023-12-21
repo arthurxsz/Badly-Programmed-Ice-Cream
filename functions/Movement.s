@@ -286,7 +286,7 @@ SPEC_BAIXO:
 		j FIM
 
 ####################################
-# SISTEMA DE COLISÃO (COLET�?VEIS)  #
+# SISTEMA DE COLISÃO (COLETAVEIS)  #
 ###################################
 
 Coletaveis_x: #s2 = qtd de coletáveis

@@ -1,3 +1,16 @@
+##############################################################
+#		Bad Programmed Ice Cream . 2023-2 . ISC			     #
+# 															 #	
+# Trabalho final da disciplina de introdução aos sistemas    #
+# computacionais, ministrada pelo professor Marcus Vinicius. #
+# Inspirado no jogo Bad Ice Cream (Nitrome).				 #	
+# 															 #	
+# 			        Arthur Silva 						     # 
+#			    João Carlos Gonçalves				         #
+#			       Arthur Araújo							 #
+#															 #
+##############################################################
+
 .data
 
 #### Definindo player ######

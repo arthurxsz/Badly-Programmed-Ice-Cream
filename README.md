@@ -12,4 +12,4 @@ Criado pelos alunos [@The3rdMega](https://github.com/The3rdMega), [@arthurxsz](h
 
 + **Movimentação:** W, A, S, D
 + **Ataque Especial:** J
-+ **Cheat Troca de Fase:** N
++ **Troca de Fase:** N

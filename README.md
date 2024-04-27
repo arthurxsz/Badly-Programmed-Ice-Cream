@@ -8,3 +8,8 @@ Criado pelos alunos [@The3rdMega](https://github.com/The3rdMega), [@arthurxsz](h
 ```
 .\fpgrars.exe .\main.s
 ```
+## Controles
+
++ **Movimentação:** W, A, S, D
++ **Ataque Especial:** J
++ **Cheat Troca de Fase:** N
